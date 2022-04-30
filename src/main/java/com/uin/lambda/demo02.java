@@ -4,15 +4,12 @@ import java.util.function.IntBinaryOperator;
 
 public class demo02 {
     public static void main(String[] args) {
-        int i = calculateNum(new IntBinaryOperator() {
-            @Override
-            public int applyAsInt(int left, int right) {
-                return left + right;
-            }
-        });
+        //option+enter 自动转化成lambda表达式
+        int i = calculateNum((left, right) -> left + right);
         System.out.println(i);
 
         //===============
+
         int i1 = calculateNum((left, right) -> {
             return left + right;
         });
