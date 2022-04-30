@@ -6,7 +6,8 @@ import java.util.List;
 
 public class demo01 {
     public static void main(String[] args) {
-
+        List<Author> authors = getAuthors();
+        System.out.println(authors);
     }
 
     private static List<Author> getAuthors() {
