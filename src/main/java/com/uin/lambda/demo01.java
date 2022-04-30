@@ -9,5 +9,10 @@ public class demo01 {
                 System.out.println("你知道吗 我很爱五一假期");
             }
         }).start();
+
+        //我们使用Lambda的格式对其进行修改
+        new Thread(() -> {
+            System.out.println("你知道吗 我很爱五一假期。。。。");
+        }).start();
     }
 }
