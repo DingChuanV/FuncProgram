@@ -6,15 +6,24 @@ import java.util.List;
 
 public class demo01 {
     public static void main(String[] args) {
+        //List<Author> authors = getAuthors();
+        //System.out.println(authors);
         List<Author> authors = getAuthors();
-        System.out.println(authors);
+        authors.stream()
+                .distinct()
+                .filter((item) -> {
+                    return item.getAge() < 18;
+                })
+                .forEach((item) -> {
+                    System.out.printf(item.getName() + ",");
+                });
     }
 
     private static List<Author> getAuthors() {
         Author author = new Author(1L, "蒙多", 33, "一个从菜刀中明悟哲理的祖安人", null);
         Author author1 = new Author(2L, "呀啦嗦", 15, "一个从菜刀中明悟哲理的祖安人", null);
         Author author2 = new Author(3L, "一", 14, "一个从菜刀中明悟哲理的祖安人", null);
-        Author author3 = new Author(4L, "蒙1多", 14, "一个从菜刀中明悟哲理的祖安人", null);
+        Author author3 = new Author(4L, "蒙1多", 14, "一个从菜刀中明悟1哲理的祖安人", null);
 
         //书籍列表
 
