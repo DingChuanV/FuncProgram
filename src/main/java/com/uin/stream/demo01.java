@@ -19,7 +19,21 @@ public class demo01 {
 //                .forEach((item) -> {
 //                    System.out.printf(item.getName() + ",");
 //                });
-        test1();
+        //test1();
+        test2();
+    }
+
+    private static void test2() {
+        //打印现有数据的所有分类。要求对分类进行去重。不能出现这种格式：哲学，爱情
+        List<Author> authors = getAuthors();
+
+        authors.stream()
+                .flatMap(item -> item.getBooks().stream())
+                .distinct()
+                .flatMap(items -> Arrays.stream(items.getCategory().split(",")))
+                .distinct()
+                .forEach(item -> System.out.println(item));
+
     }
 
     /**
@@ -63,7 +77,7 @@ public class demo01 {
         list2.add(new Book(4L, "xxx", "xx2x", 85, "xxx"));
         list2.add(new Book(5L, "xxx", "x2xx", 56, "xxx"));
 
-        list3.add(new Book(6L, "xxx", "xx3x", 56, "xxx"));
+        list3.add(new Book(6L, "xxx", "xx3x,xxx23x", 56, "xxx"));
         list3.add(new Book(7L, "xxx", "xx3x", 100, "xxx"));
         list3.add(new Book(8L, "xxx", "x3xx", 100, "xxx"));
         list3.add(new Book(9L, "xxx", "xx4x", 56, "xxx"));
