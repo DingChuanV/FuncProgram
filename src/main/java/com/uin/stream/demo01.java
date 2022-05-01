@@ -1,8 +1,9 @@
 package com.uin.stream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +21,122 @@ public class demo01 {
 //                    System.out.printf(item.getName() + ",");
 //                });
         //test1();
-        test2();
+        //test2();
+        //test3();
+        //test4();
+        //test5();
+        //test6();
+        //test7();
+        //test8();
+        //test9();
+        test10();
+    }
+
+    private static void test10() {
+        //使用reduce的一个参数值 求年龄的最小值
+        List<Author> authors = getAuthors();
+        Optional<Integer> reduce = authors.stream()
+                .map(item -> item.getAge())
+                .distinct()
+                .reduce((result, element) -> Math.min(result, element));
+        System.out.println(reduce.get());
+    }
+
+    private static void test9() {
+        //使用reduce 求所有作者的年龄中最小的值
+        List<Author> authors = getAuthors();
+        Integer reduce = authors.stream()
+                .map(item -> item.getAge())
+                .distinct()
+                .reduce(Integer.MAX_VALUE, (result, element) -> result < element ? result : element);
+        System.out.println(reduce);
+    }
+
+    private static void test8() {
+        //使用reduce求所有作者中年龄最大的
+        List<Author> authors = getAuthors();
+        Integer reduce = authors.stream()
+                .map(item -> item.getAge())
+                .distinct()
+                .reduce(Integer.MIN_VALUE, (result, element) -> Math.max(result, element));
+        //或者使用三元运算符
+        // return result>element? result:element;
+        // result < element? element:result
+        System.out.println(reduce);
+    }
+
+    private static void test7() {
+        //reduce 归并
+        //使用reduce求所有作者的年龄之和
+        List<Author> authors = getAuthors();
+        //mapreduce 模式
+        Integer reduce = authors.stream()
+                .map(item -> {
+                    return item.getAge();
+                })
+                .distinct()
+                .reduce(0, (result, element) -> result + element);
+        System.out.println(reduce);
+    }
+
+    private static void test6() {
+        List<Author> authors = getAuthors();
+        Map<String, List<Book>> collect = authors.stream()
+                .distinct()
+                .collect(Collectors.toMap(item -> item.getName(), item -> item.getBooks()));
+        collect.forEach((s, books) -> {
+            System.out.println(s);
+            System.out.println(books);
+        });
+    }
+
+    private static void test5() {
+        List<Author> authors = getAuthors();
+        //获取一个map集合，map的key为作者名，value为List<Book>
+        Map<String, List<Book>> collect2 = authors.stream().collect(Collectors.toMap(new Function<Author, String>() {
+            @Override
+            public String apply(Author author) {
+                return author.getName();
+            }
+        }, new Function<Author, List<Book>>() {
+            @Override
+            public List<Book> apply(Author author) {
+                return author.getBooks();
+            }
+        }));
+        System.out.println(collect2);
+    }
+
+    private static void test4() {
+        //获取一个所有作者名字的集合
+        List<Author> authors = getAuthors();
+        List<String> collect = authors.stream().map(item -> item.getName())
+                .collect(Collectors.toList());
+        System.out.println(collect);
+
+        //获取一个书的set集合
+        Set<Book> collect1 = authors.stream().flatMap(item -> item.getBooks().stream())
+                .collect(Collectors.toSet());
+        System.out.println(collect1);
+
+    }
+
+    private static void test3() {
+        //分别获取这些作家的所处书籍的做高分和最低分
+        List<Author> authors = getAuthors();
+        Optional<Integer> max = authors.stream().flatMap(item -> item.getBooks().stream())
+                .map(item -> item.getScore())
+                .max((a1, a2) -> {
+                    return a1 - a2;
+                });
+        System.out.println(max.get());
+
+        Optional<Integer> min = authors.stream().flatMap(item -> item.getBooks().stream())
+                .map(item -> item.getScore())
+                .min((a1, a2) -> {
+                    return a1 - a2;
+                });
+        System.out.println(min.get());
     }
 
     private static void test2() {
@@ -61,7 +177,7 @@ public class demo01 {
         Author author = new Author(1L, "蒙多", 33, "一个从菜刀中明悟哲理的祖安人", null);
         Author author1 = new Author(2L, "呀啦嗦", 15, "一个从菜刀中明悟哲理的祖安人", null);
         Author author2 = new Author(3L, "一", 14, "一个从菜刀中明悟哲理的祖安人", null);
-        Author author3 = new Author(4L, "蒙1多", 14, "一个从菜刀中明悟1哲理的祖安人", null);
+        Author author3 = new Author(3L, "蒙1多", 14, "一个从菜刀中明悟1哲理的祖安人", null);
 
         //书籍列表
 
