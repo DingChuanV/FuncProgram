@@ -3,23 +3,47 @@ package com.uin.stream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class demo01 {
     public static void main(String[] args) {
         //List<Author> authors = getAuthors();
         //System.out.println(authors);
-        List<Author> authors = getAuthors();
-        authors.stream()
-                .distinct()
-                .filter((item) -> {
-                    return item.getAge() < 18;
-                })
-                .forEach((item) -> {
-                    System.out.printf(item.getName() + ",");
-                });
+//        List<Author> authors = getAuthors();
+//        authors.stream()
+//                .distinct()
+//                .filter((item) -> {
+//                    return item.getAge() < 18;
+//                })
+//                .forEach((item) -> {
+//                    System.out.printf(item.getName() + ",");
+//                });
+        test1();
     }
 
-    private static List<Author> getAuthors() {
+    /**
+     * map只能把一个对象转换成另一个对象来作为流中的元素。
+     * 而flatmap可以把一个对象转换成多个对象作为流中的元素。
+     *
+     * @author wanglufei
+     * @date 2022/5/1 8:51 AM
+     */
+    private static void test1() {
+        List<Author> authors = getAuthors();
+        //打印所有的书籍，要求对重复的元素进行去重
+//        List<List<Book>> collect = authors.stream().map((item) -> {
+//            return item.getBooks();
+//        }).collect(Collectors.toList());
+//        System.out.println(collect);
+
+        authors.stream().distinct().flatMap((item) -> {
+            //Stream<Book> stream = item.getBooks().stream();
+            return item.getBooks().stream();
+        }).forEach(item -> System.out.println(item));
+    }
+
+    public static List<Author> getAuthors() {
         Author author = new Author(1L, "蒙多", 33, "一个从菜刀中明悟哲理的祖安人", null);
         Author author1 = new Author(2L, "呀啦嗦", 15, "一个从菜刀中明悟哲理的祖安人", null);
         Author author2 = new Author(3L, "一", 14, "一个从菜刀中明悟哲理的祖安人", null);
