@@ -39,7 +39,8 @@ public class demo01 {
                 .map(item -> item.getAge())
                 .distinct()
                 .reduce((result, element) -> Math.min(result, element));
-        System.out.println(reduce.get());
+        //ifPresent 不为空  如果存在值，则使用该值调用指定的使用者，否则不执行任何操作
+        reduce.ifPresent(age -> System.out.println(age));
     }
 
     private static void test9() {
