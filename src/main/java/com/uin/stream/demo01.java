@@ -52,7 +52,7 @@ public class demo01 {
 
     private static void test11() {
         List<Author> authors = getAuthors();
-        authors.parallelStream()
+        authors.stream()
                 .map(author -> author.getAge())
                 .map(age -> age + 10)
                 .filter(age -> age > 18)
