@@ -1,9 +1,7 @@
 package com.uin.stream;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,7 +27,46 @@ public class demo01 {
         //test7();
         //test8();
         //test9();
-        test10();
+        //test10();
+        //test11();
+        test12();
+    }
+
+    private static void test12() {
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        //使用串行流
+        Optional<Integer> reduce = stream.filter(item -> item > 4)
+                .reduce((result, element) -> result + element);
+        System.out.println(reduce.orElseGet(() -> Integer.valueOf(String.valueOf(reduce))));
+
+        //使用并行流
+        Stream<Integer> stream1 = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Optional<Integer> reduce1 = stream1
+                .parallel()
+                //调试作用
+                .peek(integer -> System.out.println(integer+"-----"+Thread.currentThread().getName()))
+                .filter(item -> item > 4)
+                .reduce((result, element) -> result + element);
+        System.out.println(reduce1.get());
+    }
+
+    private static void test11() {
+        List<Author> authors = getAuthors();
+        authors.parallelStream()
+                .map(author -> author.getAge())
+                .map(age -> age + 10)
+                .filter(age -> age > 18)
+                .map(age -> age + 2)
+                .forEach(System.out::println);
+
+        //减少装箱和拆箱的时间 优化后的代码
+        List<Author> authors1 = getAuthors();
+        authors1.stream()
+                .mapToInt(item -> item.getAge())
+                .map(age -> age + 10)
+                .filter(age -> age > 18)
+                .map(age -> age + 2)
+                .forEach(System.out::println);
     }
 
     private static void test10() {
