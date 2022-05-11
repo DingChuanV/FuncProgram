@@ -41,7 +41,7 @@ public class demo1 {
         authorOptional.ifPresent(item -> System.out.println(item.getName()));
 
         Optional<Author> authorEmpty = getAuthorEmpty();
-//        authorEmpty
+        //authorEmpty
     }
 
     //数据转换

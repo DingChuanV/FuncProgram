@@ -12,7 +12,7 @@ public class demo03 {
             }
         });
 
-        // ======
+        // ============
 
         printNum((item) -> {
             return item % 2 == 0;

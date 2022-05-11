@@ -5,6 +5,8 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.uin.stream.Author;
+
 public class demo01 {
     public static void main(String[] args) {
         //List<Author> authors = getAuthors();
@@ -28,14 +30,15 @@ public class demo01 {
         //test8();
         //test9();
         //test10();
-        //test11();
-        test12();
+        test11();
+        //test12();
     }
 
     private static void test12() {
         Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         //使用串行流
-        Optional<Integer> reduce = stream.filter(item -> item > 4)
+        Optional<Integer> reduce = stream
+                .filter(item -> item > 4)
                 .reduce((result, element) -> result + element);
         System.out.println(reduce.orElseGet(() -> Integer.valueOf(String.valueOf(reduce))));
 
@@ -44,7 +47,7 @@ public class demo01 {
         Optional<Integer> reduce1 = stream1
                 .parallel()
                 //调试作用
-                .peek(integer -> System.out.println(integer+"-----"+Thread.currentThread().getName()))
+                .peek(integer -> System.out.println(integer + "-----" + Thread.currentThread().getName()))
                 .filter(item -> item > 4)
                 .reduce((result, element) -> result + element);
         System.out.println(reduce1.get());
